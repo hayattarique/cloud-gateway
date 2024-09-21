@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: distributor-network-route
+          uri: lb://distributor-network
+          predicates:
+            - Path=/distributor-service/distributor/**
+          filters:
+            - StripPrefix=1
+      filter:
+        circuit-breaker:
+          enabled: true
+server:
+  port: 9095
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
