@@ -10,9 +10,16 @@ spring:
             - Path=/distributor-service/distributor/**
           filters:
             - StripPrefix=1
-      filter:
-        circuit-breaker:
-          enabled: true
+            - CustomGatewayFilter
+
+        - id: inventory-management-route
+          uri: lb://inventory-management
+          predicates:
+            - Path=/inventory-service/stock/**
+          filters:
+            - StripPrefix=1
+
+
 server:
   port: 9095
 
